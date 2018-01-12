@@ -168,6 +168,8 @@
       <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('archive')" data-toggle="modal" data-target="#archiveModal"
         ng-click="FM.updateArchiveName()">
         <span class="glyphicon glyphicon-download-alt"></span> Archive</button>
+      <input class="btn btn-default" data-toggle="toggle" type="checkbox" value="FM.showAllFiles" ng-click="FM.toggleShowAllFiles()"> Show All Files
+
       <button type="button" class="btn btn-default pull-right" ng-disabled="FM.btnDisabled('create_folder')" data-toggle="modal"
         data-target="#createFolderModal">
         <span class="glyphicon glyphicon-plus-sign"></span> New Folder</button>
