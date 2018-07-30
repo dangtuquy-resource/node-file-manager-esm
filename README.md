@@ -7,21 +7,21 @@
 ## Standalone
 Requires Node >= v10.5
 ```sh
-  npm install -g node-file-manager-2
+  npm install -g node-file-manager-esm
   node-file-manager -p 8080 -d /path/to/
 ```
 
 Or
 
 ```sh
-  git clone https://github.com/BananaAcid/node-file-manager-2.git && cd node-file-manager-2 && npm i
+  git clone https://github.com/BananaAcid/node-file-manager-esm.git && cd node-file-manager-esm && npm i
   node --experimental-modules server.mjs -p 8080 -d /path/to/show
 ```
 
 Or use Babel + Node >= v4
 
 ```sh
-  git clone https://github.com/BananaAcid/node-file-manager-2.git && cd node-file-manager-2 && npm i && npm i --only=dev
+  git clone https://github.com/BananaAcid/node-file-manager-esm.git && cd node-file-manager-esm && npm i && npm i --only=dev
   node server.babel-entry.js -p 8080 -d /path/to/show
 ```
 *for Babel, you need to remove one code line in index:20 or server:14 (where `__dirname` gets patched for node modules)*
