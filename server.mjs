@@ -21,7 +21,7 @@ var argv = optimist
     .usage(['USAGE: $0 [-p <port>] [-d <directory>]'])
     .option('port', {
         alias: 'p',
-        default: 5000,
+        default: process.env.PORT || 5000,
         description: 'Server Port'
     })
     .option('directory', {

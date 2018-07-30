@@ -8,8 +8,13 @@
 Requires Node >= v10.5
 ```sh
   npm install -g node-file-manager-esm
-  node-file-manager -p 8080 -d /path/to/
+  node-file-manager-esm -p 8080 -d /path/to/
 ```
+or with port as environment variable (Heroku, IIS)
+```
+  PORT=8080 node-file-manager-esm
+```
+
 
 Or
 
