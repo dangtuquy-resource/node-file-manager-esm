@@ -6,15 +6,19 @@
 
 ## Standalone
 Requires Node >= v10.5
+
+```sh
+npx node-file-manager-esm -p 8080 -d /path/to/show -l -o -s
+```
+or
 ```sh
   npm install -g node-file-manager-esm
-  node-file-manager-esm -p 8080 -d /path/to/
+  node-file-manager-esm -p 8080 -d /path/to/show
 ```
-or with port as environment variable (Heroku, IIS)
-```
+or with port as environment variable (Heroku, Linux, OSX)
+```sh
   PORT=8080 node-file-manager-esm
 ```
-
 
 Or
 
@@ -23,17 +27,22 @@ Or
   node --experimental-modules server.mjs -p 8080 -d /path/to/show
 ```
 
-Or use Babel + Node >= v4
+Or use ESM + Node >= v4
 
 ```sh
   git clone https://github.com/BananaAcid/node-file-manager-esm.git && cd node-file-manager-esm && npm i && npm i --only=dev
-  node server.babel-entry.js -p 8080 -d /path/to/show
+  node server.esm-entry.js -p 8080 -d /path/to/show
 ```
-*for Babel, you need to remove one code line in index:20 or server:14 (where `__dirname` gets patched for node modules)*
+or
+```sh
+node -r esm server.mjs
+```
 
-We can run node-file-manager in terminal directly. We can specify prot add data root dir by `-p` and `-d`, default with 5000 and scripts directory.
+We can run node-file-manager in terminal directly. We can specify the port add data root dir by `-p` and `-d`, default with 5000 and scripts directory.
 
-Then, we can view localhost:8080/ in our browser.
+Then, we can view http://localhost:8080/ in our browser.
+
+
 
 ## as koa app to be mounted
 
@@ -53,16 +62,18 @@ So we can use it as koa app, mounted within another koa instance.
 - Reduced dependencies
 
 # mjs
-The `Michael Jackson Script` or `.mjs` (or modular JS) extension is used by NodeJs to detect ECMAScript Modules, Babel does not care - look at the babel entry files.
+The `Michael Jackson Script` or `.mjs` (or` modular JS`) extension is used by NodeJs to detect ECMAScript Modules, Babel does not care - look at the babel entry files.
 
 # Params
 There are some configuration options for the commandline
 
-- `-p` | `--port int` -- [5000]
+- `-p` | `--port int` -- [5000] can be set as environment variable PORT 
 - `-d` | `--directory string` -- [current path] a path string to be accessible
 - `-f` | `--filter string` -- [zip|tar.gz|7z|7zip|tar|gz|tgz|tbz|tar.bz2|tar.bz|txt|jpg|png|avi|mp4] pattern, seperated by |
-- `-s` | `--secure` -- is off by default, enable HTTP Basic Auth, htpasswd file is used
+- `-s` | `--secure <string>` -- is off by default, set it use BASIC-AUTH with the htpasswd of the path provided, or the htpasswd within the current directory
 - `-v` | `--version` -- show the version number
+- `-l` | `--logging <string>` -- show logging info (can be set as environment variable with DEBUG=fm:* as well)
+- `-o` | `--open` -- Open the website to this service (localhost with selected port)
 
 # HTTP Basic Auth
 The app is protected with simple http basic auth, so it's recommended to use it just over TLS (HTTPS). Let's Encrypt is your friend. ;)
@@ -82,6 +93,5 @@ sudo apt-get -y install apache2-utils
 ## Manualy add a User
 The following command creates a new `htpasswd` file in the current folder with the user `peter`. After creating a new file copy it into the `lib` dir of the app or append the content of the new file to the existing one.
 ```bash
-htpasswd -c ./htpasswd peter
-cp ./htpasswd node-file-manager/lib
+htpasswd -c ./htpasswd adam
 ```

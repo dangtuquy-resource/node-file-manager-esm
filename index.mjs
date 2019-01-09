@@ -17,8 +17,11 @@ import debug from 'debug';
 import Tools from './lib/tools';
 import IndexRouter from './lib/routes';
 
-if (!__dirname) var __dirname = path.resolve(path.dirname(decodeURI(new URL(import.meta.url).pathname))); // fix node module -- fucks up babel
-
+let __dir_name = (typeof __dirname !== 'undefined') ? __dirname : '';
+if (!__dir_name) {
+    const im = import.meta;
+    __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname))); // fix node module -- fucks up babel
+}
 
 
 const fm = function init(pathToWatch, filefilter) {
@@ -39,7 +42,7 @@ const fm = function init(pathToWatch, filefilter) {
 
   app.use(IndexRouter)
 
-  app.use(koaStatic(path.join(__dirname,'./lib/public/')));
+  app.use(koaStatic(path.join(__dir_name,'./lib/public/')));
 
   fm.app = app;
 

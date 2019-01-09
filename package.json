@@ -1,6 +1,6 @@
 {
   "name": "node-file-manager-esm",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "File manager, based on Koa and Angular.js. Standalone, Koa-mountable. Import-able as ES6 and Babel module.",
   "main": "index.mjs",
   "engines": {
@@ -12,7 +12,7 @@
     "start-babel": "echo \"npm install the dev dependencies.\" && DEBUG=*,-babel node server.babel-entry.js -p 3000 -d /tmp/upload"
   },
   "bin": {
-    "node-file-manager-esm": "./bin/node-file-manager-esm.sh"
+    "node-file-manager-esm": "./bin/node-file-manager-esm"
   },
   "dependencies": {
     "await-busboy": "^1.0.2",
@@ -42,17 +42,20 @@
     "mount"
   ],
   "author": {
+    "name": "bananaacid",
+    "email": "repo@bananaacid.de"
+  },
+  "contributers": [{
     "name": "efei",
     "email": "efeigm@gmail.com"
-  },
+  }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BananaAcid/node-file-manager-esm/issues"
   },
   "homepage": "https://github.com/BananaAcid/node-file-manager-esm#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-es2015-node6": "^0.4.0",
-    "babel-preset-stage-3": "^6.24.1"
+    "esm": "^3.0.84",
+    "opn": "^5.4.0"
   }
 }

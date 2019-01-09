@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+/**
+ * node-file-manager-esm
+ *
+ * Copyright (c) 2019 by Nabil Redmann
+ */
+'use strict'
+
+
+require('../server.esm-entry.js');
