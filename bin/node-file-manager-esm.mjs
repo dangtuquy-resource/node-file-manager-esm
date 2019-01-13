@@ -1,15 +1,17 @@
 'strict';
 
+// manually handling the --logging param to have debug be set up before anything else
 import debug from 'debug';
 let argv_logging = 'undefined';
 process.argv.forEach((val, index) => {
   let params = val.split('=');
   if ('--log' == params[0].toLocaleLowerCase() || '-l' == params[0].toLocaleLowerCase()) {
-    let param = params.length == 2 ? params.pop() : '*';
+    let param = params.length == 2 ? params.pop() : (params.length == 1 && process.argv[index +1] && process.argv[index +1][0] != '-' ? process.argv[index +1] : '*');
     argv_logging = param;
     debug.enable('fm:' + param);
   }
 });
+
 
 import url from 'url';
 import auth from 'http-auth';
@@ -59,7 +61,7 @@ let argv = optimist
     })
     .option('logging', {
         alias: 'l',
-        description: 'output logging info, must be -l=xyz or --logging=xyz [using just -l or --logging resolves to --logging=* and can be set as environment variable with DEBUG=fm:* as well'
+        description: 'output logging info [using just `-l` or `--logging` resolves to `--logging *` and can be set as environment variable with `DEBUG=fm:*` as well. `-l traffic` will only show `fm:traffic`]'
     })
     .option('open', {
         alias: 'o',
@@ -94,7 +96,7 @@ global.NODEFILEMANAGER = {
 dso('--directory:', NODEFILEMANAGER.DATA_ROOT);
 dso('--filter:', NODEFILEMANAGER.FILEFILTER);
 dso('--secure:', 'secure' in argv ? argv.secure : 'undefined');
-dso('--logging:', 'logging' in argv ? (argv.logging === true ? argv.logging : argv_logging) : 'undefined');
+dso('--logging:', 'logging' in argv ? (argv.logging === true ? true : argv_logging); // preserve 'true' for no value
 
 // Start Server
 import Tools from '../lib/tools';
@@ -144,7 +146,6 @@ import IndexRouter from '../lib/routes';
 app.use(IndexRouter);
 
 app.use(koaStatic(path.join(NODEFILEMANAGER.BASEPATH, './lib/public/')));
-
 
 
 startServer(app, +argv.port);

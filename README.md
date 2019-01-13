@@ -80,7 +80,7 @@ There are some configuration options for the commandline
 - `-f` | `--filter string` -- [zip|tar.gz|7z|7zip|tar|gz|tgz|tbz|tar.bz2|tar.bz|txt|jpg|png|avi|mp4] pattern, seperated by |
 - `-s` | `--secure <string>` -- is off by default, set it use BASIC-AUTH with the .htpasswd of the path provided, or leave empty for the htpasswd within the bin directory (default login is adam:adam)
 - `-v` | `--version` -- show the version number
-- `-l` | `--logging <string>` -- output logging info, must be -l=xyz or --logging=xyz [using just -l or --logging resolves to --logging=* and can be set as environment variable with DEBUG=fm:* as well
+- `-l` | `--logging <string>` -- output logging info [using just `-l` or `--logging` resolves to `--logging *` and can be set as environment variable with `DEBUG=fm:*` as well. `-l traffic` will only show `fm:traffic`]
 - `-o` | `--open` -- Open the website to this service (localhost with selected port)
 
 ## HTTP Basic Auth
