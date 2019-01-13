@@ -19,8 +19,8 @@ import IndexRouter from './lib/routes';
 
 let __dir_name = (typeof __dirname !== 'undefined') ? __dirname : '';
 if (!__dir_name) {
-    const im = import.meta;
-    __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname))); // fix node module -- fucks up babel
+    const im = import.meta; // fix node module -- fucks up babel
+    __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname)));
 }
 
 

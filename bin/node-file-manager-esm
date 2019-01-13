@@ -8,4 +8,7 @@
 'use strict'
 
 
-require('../server.esm-entry.js');
+require = require("esm")(module, {"force": true, "mode": "auto", "cjs": { "vars": true } });
+
+// register application
+module.exports = require('./node-file-manager-esm.mjs').default;

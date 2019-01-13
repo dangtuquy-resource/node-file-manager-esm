@@ -1,10 +1,12 @@
-#!/usr/bin/env node
+'strict';
 
 import debug from 'debug';
+let argv_logging = 'undefined';
 process.argv.forEach((val, index) => {
   let params = val.split('=');
   if ('--log' == params[0].toLocaleLowerCase() || '-l' == params[0].toLocaleLowerCase()) {
     let param = params.length == 2 ? params.pop() : '*';
+    argv_logging = param;
     debug.enable('fm:' + param);
   }
 });
@@ -12,20 +14,20 @@ process.argv.forEach((val, index) => {
 import url from 'url';
 import auth from 'http-auth';
 import path from 'path';
-//import tracer from 'tracer';
 import Koa from 'koa';
 import mount from 'koa-mount';
 import koaStatic from 'koa-static';
 import opn from 'opn';
 
-import package_json from './package.json';
+import package_json from '../package.json';
 
 const d = debug('fm:start');
+const dso = debug('fm:options');
 
 let __dir_name = (typeof __dirname !== 'undefined') ? __dirname : '';
 if (!__dir_name) {
-    const im = import.meta;
-    __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname))); // fix node module -- fucks up babel
+    const im = import.meta; // fix node module -- fucks up babel
+    __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname))); 
 }
 
 
@@ -41,7 +43,7 @@ let argv = optimist
     })
     .option('directory', {
         alias: 'd',
-        description: 'Root Files Directory'
+        description: 'The path to provide the files from'
     })
     .option('filter', {
         alias: 'f',
@@ -49,7 +51,7 @@ let argv = optimist
     })
     .option('secure', {
         alias: 's',
-        description: 'Use BASIC-AUTH with the htpasswd of the path provided, or the htpasswd within the current directory'
+        description: 'Use BASIC-AUTH with the htpasswd of the path provided, or the htpasswd within the current bin directory (default login is adam:adam)'
     })
     .option('version', {
         alias: 'v',
@@ -57,7 +59,7 @@ let argv = optimist
     })
     .option('logging', {
         alias: 'l',
-        description: 'output logging info, must be -l=xyz or --logout=xyz [using just -l or --logout resolves to --logout=* and can be set as environment variable with DEBUG=fm:* as well]'
+        description: 'output logging info, must be -l=xyz or --logging=xyz [using just -l or --logging resolves to --logging=* and can be set as environment variable with DEBUG=fm:* as well'
     })
     .option('open', {
         alias: 'o',
@@ -85,13 +87,17 @@ if (argv.logging) {
 
 
 global.NODEFILEMANAGER = {
-    BASEPATH: __dir_name,
-    DATA_ROOT: argv.directory || __dir_name,
+    BASEPATH: path.resolve(__dir_name, '../'),
+    DATA_ROOT: argv.directory || path.resolve(__dir_name, '../example/'),
     FILEFILTER: argv.filter || 'zip|tar.gz|7z|7zip|tar|gz|tgz|tbz|tar.bz2|tar.bz|txt|jpg|png|avi|mp4'
 };
+dso('--directory:', NODEFILEMANAGER.DATA_ROOT);
+dso('--filter:', NODEFILEMANAGER.FILEFILTER);
+dso('--secure:', 'secure' in argv ? argv.secure : 'undefined');
+dso('--logging:', 'logging' in argv ? (argv.logging === true ? argv.logging : argv_logging) : 'undefined');
 
 // Start Server
-import Tools from './lib/tools';
+import Tools from '../lib/tools';
 
 let startServer = function(app, port) {
     app.listen(port, function() { if (argv.open) opn('http://localhost:'+port); });
@@ -108,7 +114,7 @@ app.use(Tools.realIp);
 
 
 
-// Enable auth.
+// Enable auth. KOA compatible. htpasswd file.
 if (argv.secure) {
     let htpasswd = path.resolve(__dir_name, (typeof argv.secure == 'string' ? argv.secure : './htpasswd'));
 
@@ -134,10 +140,10 @@ if (argv.secure) {
 }
 
 
-import IndexRouter from './lib/routes';
+import IndexRouter from '../lib/routes';
 app.use(IndexRouter);
 
-app.use(koaStatic(path.join(__dir_name, './lib/public/')));
+app.use(koaStatic(path.join(NODEFILEMANAGER.BASEPATH, './lib/public/')));
 
 
 
