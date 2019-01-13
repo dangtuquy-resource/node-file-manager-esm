@@ -88,7 +88,7 @@ if (argv.logging) {
 
 global.NODEFILEMANAGER = {
     BASEPATH: path.resolve(__dir_name, '../'),
-    DATA_ROOT: argv.directory || path.resolve(__dir_name, '../example/'),
+    DATA_ROOT: argv.directory || process.cwd(),
     FILEFILTER: argv.filter || 'zip|tar.gz|7z|7zip|tar|gz|tgz|tbz|tar.bz2|tar.bz|txt|jpg|png|avi|mp4'
 };
 dso('--directory:', NODEFILEMANAGER.DATA_ROOT);

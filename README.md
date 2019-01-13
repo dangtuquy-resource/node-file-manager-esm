@@ -69,14 +69,14 @@ The `Michael Jackson Script` or `.mjs` (or` modular JS`) extension is used by No
 The app can be started all by itself from the command line. You shoud set the `--directory`/`-d` to use and use the `--secure` option. As well as the `--logging` option.
 ```sh
 #example:
-$ node-file-manager-esm -p 8080 -d /path/to/show --logging --secure /path/to/htpasswd
+node-file-manager-esm -p 8080 -d /path/to/show --logging --secure /path/to/htpasswd
 ```
 
 ## CLI params
 There are some configuration options for the commandline
 
 - `-p` | `--port int` -- [5000] can be set as environment variable PORT 
-- `-d` | `--directory string` -- [example path] the path to provide the files from
+- `-d` | `--directory string` -- [current path] the path to provide the files from
 - `-f` | `--filter string` -- [zip|tar.gz|7z|7zip|tar|gz|tgz|tbz|tar.bz2|tar.bz|txt|jpg|png|avi|mp4] pattern, seperated by |
 - `-s` | `--secure <string>` -- is off by default, set it use BASIC-AUTH with the .htpasswd of the path provided, or leave empty for the htpasswd within the bin directory (default login is adam:adam)
 - `-v` | `--version` -- show the version number

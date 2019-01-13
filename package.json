@@ -1,6 +1,6 @@
 {
   "name": "node-file-manager-esm",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "File manager, based on Koa and Angular.js. Standalone, Koa-mountable. Import-able as ES6 and Babel module.",
   "main": "index.mjs",
   "engines": {
@@ -26,7 +26,9 @@
     "koa-mount": "^3.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "esm": "^3.0.84",
+    "opn": "^5.4.0"
   },
   "repository": {
     "type": "git",
@@ -60,7 +62,5 @@
   },
   "homepage": "https://github.com/BananaAcid/node-file-manager-esm#readme",
   "devDependencies": {
-    "esm": "^3.0.84",
-    "opn": "^5.4.0"
   }
 }
