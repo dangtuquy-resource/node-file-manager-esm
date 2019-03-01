@@ -1,4 +1,4 @@
-# Screen Shot
+# node-file-manager-esm
 ![screenshot](https://user-images.githubusercontent.com/1894723/51090885-38a4f480-1783-11e9-9c27-e0380d8be67a.png)
 
 
