@@ -4,6 +4,9 @@
 
 # Usage
 
+## as Docker container
+see [DockerHub - docker-node-filemanager-esm](https://hub.docker.com/r/bananaacid/docker-node-filemanager-esm)
+
 ## Standalone / CLI
 Requires Node >= v10.5
 
