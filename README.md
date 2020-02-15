@@ -1,5 +1,5 @@
 # node-file-manager-esm
-![screenshot](https://user-images.githubusercontent.com/1894723/51090885-38a4f480-1783-11e9-9c27-e0380d8be67a.png)
+![screenshot v2](https://user-images.githubusercontent.com/1894723/74577640-87c5e600-4f90-11ea-8b04-c644d2d5a111.png)
 
 
 # Usage
@@ -8,7 +8,7 @@
 Requires Node >= v10.5
 
 ```sh
-# no installation required
+# no installation required (linux, osx, win)
 $ npx node-file-manager-esm -p 8080 -d /path/to/show --logging --secure --open
 ```
 or
@@ -16,9 +16,11 @@ or
 npm install -g node-file-manager-esm
 node-file-manager-esm -p 8080 -d /path/to/show
 ```
-or with port as environment variable (Heroku, Linux, OSX)
+or with port as environment variable (Heroku, Linux, OSX, IIS: iisnode uses the port-env as well)
 ```sh
-PORT=8080 node-file-manager-esm
+$    PORT=8080 node-file-manager-esm
+\>   set PORT=8080 && node-file-manager-esm
+ps1> $PORT=8080 ; node-file-manager-esm
 ```
 
 Or
@@ -34,9 +36,13 @@ Or use ESM + Node >= v4
 git clone https://github.com/BananaAcid/node-file-manager-esm.git && cd node-file-manager-esm && npm i && npm i --only=dev
 node ./bin/node-file-manager-esm -p 8080 -d /path/to/show
 ```
-or
+or Node < v12
 ```sh
 node -r esm ./bin/node-file-manager-esm.mjs
+```
+or Node >= v13
+```sh
+node ./bin/node-file-manager-esm.mjs
 ```
 
 We can run node-file-manager in terminal directly. We can specify the port add data root dir by `-p` and `-d`, default with 5000 and scripts directory.
@@ -58,12 +64,12 @@ So we can use it as koa app, mounted within another koa instance.
 # Major changes in this fork
 - updated to use a recent Koa
 - be koa-mount compatible
-- rewritten to be an ECMAScript Module (or Babel), works with both
+- rewritten to be an ECMAScript Module (or Babel), works with both as well as the preferred `esm` module
 - has Multi file upload
 - Reduced dependencies
 
 # mjs
-The `Michael Jackson Script` or `.mjs` (or` modular JS`) extension is used by NodeJs to detect ECMAScript Modules with the `--experimental-modules` flag. Since Babel does have problems `import.meta`, the `esm` npm module is used to transpill the code for older node versions. See the files within the `./bin` folder.
+The `Michael Jackson Script` or `.mjs` (or` modular JS`) extension is used by NodeJs to detect ECMAScript Modules with the `--experimental-modules` flag in NodeJS prior to v13. Since Babel does have problems `import.meta`, the `esm` npm module is used to transpill the code for older node versions. See the files within the `./bin` folder.
 
 # Standalone / CLI
 The app can be started all by itself from the command line. You shoud set the `--directory`/`-d` to use and use the `--secure` option. As well as the `--logging` option.
@@ -82,6 +88,16 @@ There are some configuration options for the commandline
 - `-v` | `--version` -- show the version number
 - `-l` | `--logging <string>` -- output logging info [using just `-l` or `--logging` resolves to `--logging *` and can be set as environment variable with `DEBUG=fm:*` as well. `-l traffic` will only show `fm:traffic`]
 - `-o` | `--open` -- Open the website to this service (localhost with selected port)
+
+## Environment variables
+Fallback, if no param was used
+
+- `FM_PORT` -- tries FM_PORT then PORT if no port param was given
+- `FM_DIRECTORY` -- like `-p`
+- `FM_FILTER` -- like `-f`
+- `FM_SECURE` -- like `-s`
+- `FM_LOGGING` -- like `-l`
+
 
 ## HTTP Basic Auth
 The app is protected with simple http basic auth, so it's recommended to use it just over TLS (HTTPS). Let's Encrypt is your friend. ;)

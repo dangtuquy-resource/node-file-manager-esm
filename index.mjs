@@ -1,10 +1,10 @@
 /**
  * make the app mountable
  * 
- * @author Nabil Redmann 2018
+ * @author Nabil Redmann 2018/2020
  *
  * @example
- *    import fm from 'app-filemanager-2';
+ *    import fm from 'app-filemanager-esm';
  *    var appFm = fm('/uploadpath', 'zip|txt|mp4').app;
  *    mainApp.use(mount('/fm', appFm));
  **/
@@ -23,7 +23,7 @@ if (!__dir_name) {
     __dir_name = path.resolve(path.dirname(decodeURI(new url.URL(im.url).pathname)));
 }
 
-
+// factory
 const fm = function init(pathToWatch, filefilter) {
 
   global.NODEFILEMANAGER = {
@@ -42,12 +42,14 @@ const fm = function init(pathToWatch, filefilter) {
 
   app.use(IndexRouter)
 
-  app.use(koaStatic(path.join(__dir_name,'./lib/public/')));
+  app.use(koaStatic(path.join(__dir_name, './lib/public/')));
 
   fm.app = app;
 
   return fm;
 }
-fm.app = null;
 
+fm.app = null; // init property
+
+// export factory to be used in any Koa app
 export default fm;

@@ -7,12 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>File Manager</title>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" integrity="sha384-HlxBLYVP7Yf7mvmXr2/lj8pQw1fe9SZR2f6GUMKZcH7HR2rWIzY0FB4g0Jg+E5Xn" crossorigin="anonymous"></script>
   <script src="js/angular-file.js"></script>
   <script src="js/app.js"></script>
-  <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css" integrity="sha384-C1VkjHy10mh0wo7rz2xEDdqrfn5C+AJpaCpUyScFHzKb0mnAU3I//2RrdAE+LfQ6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/solid.min.css" integrity="sha384-yiUBjfJC2dVbhAEtVzEfH+R8ZQJ91V1C+Vtr1ZDTX+gUBZWrNyVrs/Nvc1fzi8GP" crossorigin="anonymous">
 
   <style type="text/css">
     .sortable {
@@ -29,12 +34,12 @@
           <h4>New Folder</h4>
         </div>
         <div class="modal-body">
-          <p>Complete Path　{{FM.curFolderPath + FM.newFolderName + '/'}}</p>
+          <p>Complete Path　{{(FM.curFolderPath + FM.newFolderName + '/').replace('//', '/')}}</p>
           <label class="control-label">Folder Name</label>
           <input class="form-control" autofocus ng-model="FM.newFolderName" />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!FM.newFolderName" ng-click="FM.createFolder(FM.newFolderName)">OK</button>
         </div>
       </div>
@@ -57,14 +62,14 @@
             <table class="table table-hover table-striped">
               <thead>
                 <tr>
-                  <th class="col-sm-1">Type</th>
+                  <th class="col-sm-0">Type</th>
                   <th class="col-sm-10">Name</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="file in FM.uploadFile">
                   <td>
-                    <span class="{{file.folder ? 'glyphicon glyphicon-folder-open' : 'glyphicon glyphicon-file'}}"></span>
+                    <i class="{{file.folder ? 'fas fa-folder' : 'fas fa-file'}}"></i>
                   </td>
                   <td>
                     <a>{{file.name}}</a>
@@ -76,10 +81,10 @@
         </div>
         <div class="modal-footer">
           <div class="form-group pull-left">
-            <label class="btn btn-default">
-              <span class="glyphicon glyphicon-upload"></span>
+            <label class="btn btn-secondary">
+              <i class="fas fa-file-upload"></i>
               <span>Select files...</span>
-              <input type="file" class="form-control-file" style="display: none;" autofocus multiple ng-model="FM.uploadFile">
+              <input type="file" class="form-control-file" style="display: none;" autofocus multiple ng-model="FM.uploadFile" accept="{{FM.fileFilter}}">
             </label>
           </div>
           <button type="button" class="btn upload" data-dismiss="modal">Cancel</button>
@@ -100,8 +105,8 @@
           <input class="form-control" autofocus ng-model="FM.newName" placeholder={{FM.selection[0].name}} />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!FM.newName" ng-click="FM.rename(FM.newName)">OK</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!FM.newName || FM.newName == FM.selection[0].name" ng-click="FM.rename(FM.newName)">OK</button>
         </div>
       </div>
     </div>
@@ -118,7 +123,7 @@
           <input class="form-control" autofocus ng-model="FM.moveTarget" placeholder="{{FM.curFolderPath}}" />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!FM.moveTarget" ng-click="FM.move(FM.moveTarget)">OK</button>
         </div>
       </div>
@@ -140,7 +145,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!FM.archiveTarget" ng-click="FM.archive(FM.archiveTarget)">Create</button>
         </div>
       </div>
@@ -156,35 +161,49 @@
   </nav>
 
   <div class="container">
-    <div class="btn-toolbar">
-      <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('download')" ng-click="FM.download()">
-        <span class="glyphicon glyphicon-download"></span> Download</button>
-      <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('delete')" ng-click="FM.delete()">
-        <span class="glyphicon glyphicon-remove"></span> Delete</button>
-      <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('move')" data-toggle="modal" data-target="#moveModal">
-        <span class="glyphicon glyphicon-random"></span> Move</button>
-      <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('rename')" data-toggle="modal" data-target="#renameModal">
-        <span class="glyphicon glyphicon-font"></span> Rename</button>
-      <button type="button" class="btn btn-default" ng-disabled="FM.btnDisabled('archive')" data-toggle="modal" data-target="#archiveModal"
-        ng-click="FM.updateArchiveName()">
-        <span class="glyphicon glyphicon-download-alt"></span> Archive</button>
+    <div class="btn-toolbar" style="justify-content: space-between;">
+      <div class="btn-group mr-2" role="group" aria-label="">
+        <button type="button" class="btn btn-primary" ng-disabled="FM.btnDisabled('download')" ng-click="FM.download()">
+          <span class="fas fa-file-download"></span> Download</button>
+        <button type="button" class="btn btn-primary" ng-disabled="FM.btnDisabled('move')" data-toggle="modal" data-target="#moveModal">
+          <i class="fas fa-random"></i> Move</button>
+        <button type="button" class="btn btn-primary" ng-disabled="FM.btnDisabled('rename')" ng-click="FM.newName = FM.selection[0].name" data-toggle="modal" data-target="#renameModal">
+          <i class="fas fa-i-cursor"></i> Rename</button>
+        <button type="button" class="btn btn-primary" ng-disabled="FM.btnDisabled('archive')" data-toggle="modal" data-target="#archiveModal"
+          ng-click="FM.updateArchiveName()">
+          <i class="fas fa-file-archive"></i> Archive</button>
+        
 
-      <label class="btn btn-default">
-          <input type="checkbox" value="" value="FM.showAllFiles" ng-click="FM.toggleShowAllFiles()">
+        <div class="dropdown mr-1">
+          <button type="button" class="btn btn-danger dropdown-toggle" ng-disabled="FM.btnDisabled('delete')" id="dropdownMenuDeleteFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+            <i class="fas fa-trash"></i> Delete</button>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuDeleteFile">
+            <a class="dropdown-item" href="#" ng-click="FM.delete()" style="color: red"><b>Confirm?</b></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group mr-2" role="group" aria-label="">
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" ng-checked="FM.showAllFiles" ng-click="FM.toggleShowAllFiles()">
           Show All Files
-      </label>
+        </label>
+      </div>
 
-      <button type="button" class="btn btn-default pull-right" ng-disabled="FM.btnDisabled('create_folder')" data-toggle="modal"
-        data-target="#createFolderModal">
-        <span class="glyphicon glyphicon-plus-sign"></span> New Folder</button>
-      <button type="button" class="btn btn-default pull-right" ng-disabled="FM.btnDisabled('upload_file')" data-toggle="modal"
-        data-target="#uploadFileModal">
-        <span class="glyphicon glyphicon-upload"></span> Upload</button>
+      <div class="btn-group mr-2" role="group" aria-label="" style="margin-right: 0!important;">
+        <button type="button" class="btn btn-primary pull-right" ng-disabled="FM.btnDisabled('create_folder')" data-toggle="modal"
+          data-target="#createFolderModal">
+          <i class="fas fa-folder-plus"></i> New Folder</button>
+        <button type="button" class="btn btn-primary pull-right" ng-disabled="FM.btnDisabled('upload_file')" data-toggle="modal"
+          data-target="#uploadFileModal">
+          <i class="fas fa-file-upload"></i> Upload</button>
+        </div>
     </div>
 
     <ol class="breadcrumb">
-      <span class="glyphicon glyphicon-home"></span>
-      <li ng-repeat="p in FM.curBreadCrumbPaths">
+      <i class="fas fa-home" style="line-height: 1.5em; padding-right: .5em;"></i>
+      <li class="breadcrumb-item" ng-repeat="p in FM.curBreadCrumbPaths track by $index">
         <a href={{p.path}}>{{p.name}}</a>
       </li>
     </ol>
@@ -192,7 +211,7 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr class="sortable">
-          <th>
+          <th ng-click="FM.selectAll = FM.selectAll ? false : true">
             <input type="checkbox" value="" ng-model="FM.selectAll">
           </th>
           <th>Type</th>
@@ -203,11 +222,11 @@
       </thead>
       <tbody>
         <tr class="sortable" ng-repeat="file in FM.curFiles | orderBy:'folder'">
-          <td>
+          <td ng-click="file.selected = !file.selected">
             <input type="checkbox" value="{{file.name}}" ng-model="file.selected">
           </td>
           <td ng-click="FM.clickFile(file)">
-            <span class="{{file.folder ? 'glyphicon glyphicon-folder-open' : 'glyphicon glyphicon-file'}}"></span>
+            <span class="{{file.folder ? 'fas fa-folder' : 'fas fa-file'}}"></span>
           </td>
           <td ng-click="FM.clickFile(file)">
             <a>{{file.name}}</a>
