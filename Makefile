@@ -40,6 +40,6 @@ login:
 tag:
 	docker tag docker-node-filemanager-esm bananaacid/docker-node-filemanager-esm
 
+# for this, the image name has to be without the username until here
 push:
-	# for this, the image name has to be without the username until here
 	docker push bananaacid/docker-node-filemanager-esm
