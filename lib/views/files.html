@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>File Manager</title>
+  <meta name="repo" content="https://github.com/BananaAcid/node-file-manager-esm">
 
   <script src="js/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
   <script src="js/popper-1.16.0.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -18,15 +19,30 @@
   <link rel="stylesheet" href="css/bootstrap-4.4.1.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="css/fontawesome-5.12.1.min.css" integrity="sha384-C1VkjHy10mh0wo7rz2xEDdqrfn5C+AJpaCpUyScFHzKb0mnAU3I//2RrdAE+LfQ6" crossorigin="anonymous">
   <link rel="stylesheet" href="css/fontawesome.solid-5.12.1.min.css" integrity="sha384-yiUBjfJC2dVbhAEtVzEfH+R8ZQJ91V1C+Vtr1ZDTX+gUBZWrNyVrs/Nvc1fzi8GP" crossorigin="anonymous">
-
-  <style type="text/css">
-    .sortable {
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="css/app.css">
 </head>
 
 <body ng-controller="FileManagerCtr as FM">
+  <div aria-live="polite" aria-atomic="true" style="position: relative;">
+    <!-- Position it -->
+    <div id="toast-container">
+  
+      <div id="toast-template" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+        <div class="toast-header">
+          <div class="rounded mr-2"></div>
+          <strong class="mr-auto toast-title">Info</strong>
+          <small></small>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body"> ? </div>
+      </div>
+  
+    </div>
+  </div>
+
+
   <div class="modal fade" id="createFolderModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -83,7 +99,7 @@
           <div class="form-group pull-left">
             <label class="btn btn-secondary">
               <i class="fas fa-file-upload"></i>
-              <span>Select files...</span>
+              <span>Select files ...</span>
               <input type="file" class="form-control-file" style="display: none;" autofocus multiple ng-model="FM.uploadFile" accept="{{FM.fileFilter}}">
             </label>
           </div>
@@ -152,7 +168,7 @@
     </div>
   </div>
 
-  <nav class="navbar navbar-default navbar-static-top">
+  <nav class="navbar navbar-default navbar-static-top navbar-light bg-light">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">File Manager</a>
@@ -160,7 +176,7 @@
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" style="margin-top: 3em; margin-bottom: 2em;">
     <div class="btn-toolbar" style="justify-content: space-between;">
       <div class="btn-group mr-2" role="group" aria-label="">
         <button type="button" class="btn btn-primary" ng-disabled="FM.btnDisabled('download')" ng-click="FM.download()">
@@ -175,7 +191,7 @@
         
 
         <div class="dropdown mr-1">
-          <button type="button" class="btn btn-danger dropdown-toggle" ng-disabled="FM.btnDisabled('delete')" id="dropdownMenuDeleteFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+          <button type="button" class="btn btn-danger dropdown-toggle delete-button" ng-disabled="FM.btnDisabled('delete')" id="dropdownMenuDeleteFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,2">
             <i class="fas fa-trash"></i> Delete</button>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuDeleteFile">
@@ -187,7 +203,7 @@
       <div class="btn-group mr-2" role="group" aria-label="">
         <label class="btn btn-primary" style="margin-bottom: 0px;">
           <input type="checkbox" ng-checked="FM.showAllFiles" ng-click="FM.toggleShowAllFiles()">
-          Show All Files
+          <span>Show All Files</span>
         </label>
       </div>
 
@@ -202,19 +218,21 @@
     </div>
 
     <ol class="breadcrumb">
-      <i class="fas fa-home" style="line-height: 1.5em; padding-right: .5em;"></i>
+      <i class="fas fa-home icon-home"></i>
       <li class="breadcrumb-item" ng-repeat="p in FM.curBreadCrumbPaths track by $index">
         <a href={{p.path}}>{{p.name}}</a>
       </li>
     </ol>
+  </div>
 
+  <div class="container">
     <table class="table table-hover table-striped">
       <thead>
         <tr class="sortable">
-          <th ng-click="FM.selectAll = FM.selectAll ? false : true">
+          <th width="3em" ng-click="FM.selectAll = FM.selectAll ? false : true">
             <input type="checkbox" value="" ng-model="FM.selectAll">
           </th>
-          <th>Type</th>
+          <th width="3em" style="text-align: center;">Type</th>
           <th>Name</th>
           <th>Size</th>
           <th>Time</th>
@@ -225,7 +243,7 @@
           <td ng-click="file.selected = !file.selected">
             <input type="checkbox" value="{{file.name}}" ng-model="file.selected">
           </td>
-          <td ng-click="FM.clickFile(file)">
+          <td style="text-align: center;" ng-click="FM.clickFile(file)">
             <span class="{{file.folder ? 'fas fa-folder' : 'fas fa-file'}}"></span>
           </td>
           <td ng-click="FM.clickFile(file)">
@@ -236,18 +254,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div id="successAlert" class="alert alert-success" role="alert" style="display: none">
-      <span>{{FM.successData}}</span>
-    </div>
-
-    <div id="errorAlert" class="alert alert-danger" role="alert" style="display: none">
-      <button type="button" class="close" data-dismiss="alert" alert-label="Close">
-        <span aria-hidden="true">&times</span>
-      </button>
-      <strong>Error!</strong>
-      {{FM.errorData}}
-    </div>
 
   </div>
 </body>
