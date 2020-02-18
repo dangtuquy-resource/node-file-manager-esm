@@ -1,7 +1,7 @@
 FROM node:13.8
 
 MAINTAINER Nabil Redmann (BananaAcid) <repo@bananaacid.de>
-LABEL version="3.0.0"
+LABEL version="3.1.1"
 LABEL description="Node File Manager Server \
 on NodeJS 13.8"
 

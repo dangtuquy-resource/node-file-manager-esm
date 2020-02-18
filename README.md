@@ -1,5 +1,6 @@
 # node-file-manager-esm
-![screenshot v2](https://user-images.githubusercontent.com/1894723/74577640-87c5e600-4f90-11ea-8b04-c644d2d5a111.png)
+![screenshot v3](https://user-images.githubusercontent.com/1894723/74705515-7a209280-5214-11ea-8547-79287118ef43.png)
+
 
 
 # Usage
@@ -54,7 +55,7 @@ Then, we can view http://localhost:8080/ in our browser.
 
 
 
-## as koa app to be mounted
+## koa app: how to mount
 
 ```js
 import fm from 'app-filemanager-esm';
@@ -117,7 +118,7 @@ sudo apt-get update
 sudo apt-get -y install apache2-utils
 ```
 
-## Manualy add a User
+## Manually add a user
 The following command creates a new `htpasswd` file in the current folder with the user `peter`. After creating a new file copy it into the `lib` dir of the app or append the content of the new file to the existing one.
 ```bash
 htpasswd -c ./htpasswd adam
