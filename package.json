@@ -8,13 +8,10 @@
   },
   "scripts": {
     "start": "node ./bin/node-file-manager-esm.mjs --log",
-
     "start-debug": "DEBUG=* node --experimental-modules ./bin/node-file-manager-esm.mjs -p 5000 -d /tmp/upload",
     "start-babel": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
     "start-esm": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
-
     "start-if-docker": "node -r esm ./bin/node-file-manager-esm.mjs -d /data",
-
     "docker": "make"
   },
   "bin": {
