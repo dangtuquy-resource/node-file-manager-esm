@@ -1,6 +1,6 @@
 {
   "name": "node-file-manager-esm",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "File manager, based on Koa and Angular.js. Standalone, Koa-mountable. Import-able as ES6 and Babel module.",
   "main": "index.mjs",
   "engines": {
