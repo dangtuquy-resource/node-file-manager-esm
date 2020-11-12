@@ -20,7 +20,7 @@ process.argv.forEach((val, index) => {
 
 
 import url from 'url';
-import auth from 'http-auth';
+import { basicAuth } from 'koa-auth-basic-secure';
 import path from 'path';
 import Koa from 'koa';
 import mount from 'koa-mount';
@@ -126,34 +126,49 @@ if (!__dir_name) {
     app.use(Tools.handleError);
     app.use(Tools.realIp);
 
-
-
     // Enable auth. KOA compatible. htpasswd file.
     if (argv.secure) {
-        let htpasswd = path.resolve(__dir_name, (typeof argv.secure == 'string' ? argv.secure : './htpasswd'));
+        let htpasswd = path.resolve(__dir_name, (typeof argv.secure == 'string' ? argv.secure : './htpasswd.json'));
 
-        let basic = auth.basic({
-            realm: 'File manager',
-            file: htpasswd
-        });
+        //default authen admin / admin
+        var authData = [{ username: 'admin', password: '5TOVsPFHDgivlLIyvv4bL0CfU3bejSGYMJCBe0AaeHY=' }];
 
-        app.use(async function auth(ctx, next) {
-            debug('fm:auth')('check');
+        var rawdata = fs.readFileSync(htpasswd);
+        var configAuth = JSON.parse(rawdata);
+        if (configAuth) { authData = configAuth; }
 
-            await basic.check(ctx.req, ctx.res, async (req, res, err) => {
-                if (err) {
-                    debug('fm:auth:error')(err);
-                    throw err;
-                } else {
-                    debug('fm:auth')('passed.');
-                }
-            });
+        // Official single basic authen credential
+        // // custom 401 handling
+        // app.use(async (ctx, next) => {
+        //     try {
+        //         console.log('Authen success ====');
+        //         await next();
+        //     } catch (err) {
+        //         if (401 == err.status) {
+        //             ctx.status = 401;
+        //             ctx.set('WWW-Authenticate', 'Basic');
+        //             ctx.body = 'protected';
+        //         } else {
+        //             throw err;
+        //         }
+        //     }
+        // });
+        
+        // // require auth
+        // app.use(auth({ name: 'scc', pass: 'sccvoice@2020' }));
 
+        app.use(
+            basicAuth({
+                credentials: authData,
+                passwordProtection: 'sccvoice@6789'
+            })
+        );
+        app.use(async (ctx, next) => {
             await next();
         });
+
     }
-
-
+    
     app.use(IndexRouter);
 
     app.use(koaStatic(path.join(NODEFILEMANAGER.BASEPATH, './lib/public/')));

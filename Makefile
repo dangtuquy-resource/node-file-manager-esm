@@ -8,7 +8,7 @@ image:
 
 # test the image on port 5000
 run:
-	docker run -p 5000:5000 -d --name node-filemanager-esm docker-node-filemanager-esm
+	docker run -p 5000:5000 --rm -e FM_SECURE=htpasswd --name node-filemanager-esm docker-node-filemanager-esm
 
 run-win:
 	docker run -p 5000:5000 -it --volume D:\:/data --name node-filemanager-esm docker-node-filemanager-esm

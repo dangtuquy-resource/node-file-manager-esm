@@ -8,28 +8,34 @@
   },
   "scripts": {
     "start": "node ./bin/node-file-manager-esm.mjs --log",
-    "start-debug": "DEBUG=* node --experimental-modules ./bin/node-file-manager-esm.mjs -p 5000 -d /tmp/upload",
+    "start-debug": "DEBUG=* FM_SECURE='./htpasswd' node --experimental-modules ./bin/node-file-manager-esm.mjs -s htpasswd.json -p 5000 -d /data/file-data",
     "start-babel": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
     "start-esm": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
     "start-if-docker": "node -r esm ./bin/node-file-manager-esm.mjs -d /data",
-    "docker": "make"
+    "docker": "make",
+    "gen-passwd": "hashPassword hmac --secret sccvoice@6789 --input sccvoice@2020"
   },
   "bin": {
     "node-file-manager-esm": "./bin/node-file-manager-esm"
   },
   "dependencies": {
     "await-busboy": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "debug": "^4.1.1",
     "fs-extra": "^8.1.0",
     "http-auth": "^4.1.2",
+    "http-auth-koa": "^1.1.5",
     "jszip": "^3.2.2",
     "koa": "^2.11.0",
+    "koa-auth-basic-secure": "^1.0.1",
+    "koa-basic-auth": "^4.0.0",
     "koa-bodyparser": "^4.2.1",
     "koa-mount": "^4.0.0",
     "koa-router": "^8.0.7",
     "koa-static": "^5.0.0",
+    "open": "^7.0.2",
     "optimist": "^0.6.1",
-    "open": "^7.0.2"
+    "pm2": "^4.5.0"
   },
   "repository": {
     "type": "git",
