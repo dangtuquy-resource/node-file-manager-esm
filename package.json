@@ -11,7 +11,7 @@
     "start-debug": "DEBUG=* FM_SECURE='./htpasswd' node --experimental-modules ./bin/node-file-manager-esm.mjs -s htpasswd.json -p 5000 -d /data/file-data",
     "start-babel": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
     "start-esm": "DEBUG=* node ./bin/node-file-manager-esm -p 5000 -d /tmp/upload",
-    "start-if-docker": "NODE_ENV=production node ./bin/node-file-manager-esm.mjs -d /data",
+    "start-if-docker": "TZ='Asia/Ho_Chi_Minh' NODE_ENV=production node ./bin/node-file-manager-esm.mjs -d /data",
     "docker": "make",
     "gen-passwd": "hashPassword hmac --secret sccvoice@6789 --input sccvoice@2020"
   },
