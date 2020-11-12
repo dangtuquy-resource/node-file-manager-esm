@@ -42,7 +42,9 @@
     padding-right: .5em;
 }
 
-
+.breadcrumb {
+    margin-top: 1rem;
+}
 
 /* based on https://codepen.io/jasesmith/pen/EeVmWZ */
 input[type=checkbox],
